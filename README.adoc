@@ -1,0 +1,63 @@
+= Modbus Prometheus API Server
+:toc:
+
+== API routes
+
+[cols="1,1,1,1"]
+|===
+|Route |Input |Output |Description
+
+|*GET* /metrics
+|none
+|none
+|Real values of all Modbus registers of all clients as Prometheus standard metric endpoint
+
+|*GET* /clients
+|none
+|HTML
+|Get a string of all configured clients
+
+|*POST* /clients
+|JSON body
+|return HTTP status code
+|Create a new client. Stores local config JSON <client-name>-config.json
+
+|*DELETE* /clients/{name}
+|none
+|return HTTP status code
+|Delete a specific client. Deletes local config JSON <client-name>-config.json
+
+|*GET* /clients/{name}
+|none
+|JSON body
+|Gets the config JSON of a specific client
+|===
+
+== Get started
+
+
+
+== Testing
+
+Starting  the Prometheus with `docker run -p 9090:9090 prometheus`
+
+Start Modbus test client with Node-Red:
+
+- Copy files from Node-Red container to local file: `docker cp <docker-id>:data docker/node_red_data`
+
+== Set Logging
+
+`RUST_LOG=info cargo run`
+
+* debug—Used for debugging during development
+* info—Information purposes only
+* warning—Indicates not mission-critical problems
+* error—A typical error such as a closed database connection
+* trace—Used in one-off debugging or builds, indicates fine-grained logging
+* critical—Indicates mission-critical errors that should be addressed immediately
+
+== Links
+
+Follow these tutorials to understand better:
+
+* [Using Prometheus metrics in a Rust web service](https://blog.logrocket.com/using-prometheus-metrics-in-a-rust-web-service/ "Using Prometheus metrics in a Rust web service")
