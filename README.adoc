@@ -31,6 +31,16 @@
 |none
 |JSON body
 |Gets the config JSON of a specific client
+
+|*PUT* /clients/{name}/set-register?{register_name}={value}
+|none
+|return HTTP status code
+|Set a specific register (input register)
+
+|*PUT* /clients/{name}/set-coil?{coil_name}={value}
+|none
+|return HTTP status code
+|Set a specific coil (coil)
 |===
 
 == Get started
