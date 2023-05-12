@@ -1,5 +1,6 @@
 = Modbus Prometheus API Server
 :toc:
+:imagesdir: doc/images
 
 image::https://coveralls.io/repos/github/FabianBruenger/modbus-prometheus-api-server/badge.svg?branch=main[Terraform Core,link="https://coveralls.io/github/FabianBruenger/modbus-prometheus-api-server?branch=main"]
 
@@ -51,6 +52,8 @@ This server is a REST API server to access Modbus registers and coils. It is wri
 
 == Get started
 
+image::testing.png[Testing,align="center"]
+
 === Run Docker Modbus Prometheus API Server
 
 === Run Docker Node-Red (Modbus Server for testing)
@@ -59,7 +62,7 @@ Node-red is used for simulating a Modbus server. You can build a modbus test ser
     `cd docker /docker/node-red && build -t modbus-test-server .` 
 
 Then you can start the Node-Red Container with: +
-    `docker run -p 1880:1880 -p 8081:8081 modbus-test-server`
+    `docker run -p 1880:1880 -p 502:502 modbus-test-server`
 
 === Run Docker Prometheus (3rd party to test /metrics endpoint)
 

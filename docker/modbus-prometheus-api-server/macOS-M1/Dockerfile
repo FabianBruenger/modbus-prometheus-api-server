@@ -7,10 +7,17 @@ FROM rust:latest AS builder
 RUN rustup target add x86_64-unknown-linux-musl
 RUN apt -y update
 RUN apt install -y musl-tools musl-dev
-RUN apt-get install -y build-essential
+RUN apt-get install -y build-essential libssl-dev pkg-config
 RUN apt install -y gcc-x86-64-linux-gnu
 WORKDIR /app
-COPY ./ .
+RUN mkdir config
+
+# Copy files & dirs selectivly
+COPY ./Cargo.toml .
+COPY ./src ./src
+COPY ./config/setup-prod.toml ./setup.toml
+COPY ./config/test_client.json ./config/test_client.json
+
 # For a musl build on M1 Macs, these ENV variables have to be set
 ENV RUSTFLAGS='-C linker=x86_64-linux-gnu-gcc'
 ENV CC='gcc'
