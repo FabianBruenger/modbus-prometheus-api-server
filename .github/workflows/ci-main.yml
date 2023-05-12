@@ -5,23 +5,25 @@ on:
   pull_request:
     branches:
       - main
+env:
+  CARGO_TERM_COLOR: always
+  RUST_VERSION_STABLE: 1.51.0
+  RUST_VERSION_NIGHTLY: nightly-2021-03-25
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
+  test:
+    runs-on: ubuntu-18.04
     steps:
-      - name: Set up Rust
-        uses: actions/setup-rust@v1
-        with:
-          rust-version: stable
-
-      - name: Check out code
+      - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Build and test
-        run: cargo test --verbose
-
-      - name: Generate code coverage report
-        run: cargo tarpaulin --exclude-files tests/* --exclude-files src/main.rs --out Xml
+      - name: Install Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: ${{ env.RUST_VERSION_STABLE }}
+          profile: minimal
+          override: true
+      - name: Build
+        run: cargo build --all-targets
+      - name: Test
+        run: cargo test
 
