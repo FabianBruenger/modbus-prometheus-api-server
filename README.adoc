@@ -1,8 +1,9 @@
-= Modbus Prometheus API Server
-image::https://coveralls.io/repos/github/FabianBruenger/modbus-prometheus-api-server/badge.svg?branch=main[Terraform Core,link="https://coveralls.io/github/FabianBruenger/modbus-prometheus-api-server?branch=main"]
 :toc:
+= Modbus Prometheus API Server
 
+image::https://coveralls.io/repos/github/FabianBruenger/modbus-prometheus-api-server/badge.svg?branch=main[Terraform Core,link="https://coveralls.io/github/FabianBruenger/modbus-prometheus-api-server?branch=main"]
 
+== Introduction
 
 == API routes
 
@@ -45,10 +46,6 @@ image::https://coveralls.io/repos/github/FabianBruenger/modbus-prometheus-api-se
 |return HTTP status code
 |Set a specific coil (coil)
 |===
-
-== Get started
-
-
 
 == Testing
 
