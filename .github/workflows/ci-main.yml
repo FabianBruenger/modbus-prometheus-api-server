@@ -9,7 +9,7 @@ on:
       - main
 env:
   CARGO_TERM_COLOR: always
-  RUST_VERSION_STABLE: 1.51.0
+  RUST_VERSION_STABLE: 1.69.0
   RUST_VERSION_NIGHTLY: nightly-2021-03-25
 
 jobs:

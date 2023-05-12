@@ -1,8 +1,8 @@
-use ems_backend::clients as Clients;
-use ems_backend::errors as Errors;
-use ems_backend::logging as CustomLog;
-use ems_backend::prometheus as Prometheus;
-use ems_backend::routes as Route;
+use modbus_prometheus_api_server::clients as Clients;
+use modbus_prometheus_api_server::errors as Errors;
+use modbus_prometheus_api_server::logging as CustomLog;
+use modbus_prometheus_api_server::prometheus as Prometheus;
+use modbus_prometheus_api_server::routes as Route;
 use std::sync::Arc;
 use tokio::sync::Mutex;
 use warp::{http::Method, Filter};
