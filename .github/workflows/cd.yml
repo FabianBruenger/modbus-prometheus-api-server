@@ -1,0 +1,17 @@
+name: Rust CD
+
+on:
+  workflow_run:
+    workflows: ["Rust CI"]
+    types: [completed]
+
+jobs:
+  build-docker-images:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build Docker images
+        run: |
+          cd docker/modbus-prometheus-api-server/macOS-M1
+          docker build -t modbus-prometheus-api-server:macos-m1-latest .

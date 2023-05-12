@@ -14,7 +14,7 @@
         "name": "test_client",
         "logEnabled": true,
         "hostname": "0.0.0.0",
-        "serverPort": "8081",
+        "serverPort": "502",
         "responseDelay": 100,
         "delayUnit": "ms",
         "coilsBufferSize": "2",
