@@ -25,11 +25,3 @@ jobs:
       - name: Generate code coverage report
         run: cargo tarpaulin --exclude-files tests/* --exclude-files src/main.rs --out Xml
 
-      - name: Publish code coverage
-        uses: codecov/codecov-action@v1
-
-      - name: Update README with badges
-        uses: paz-l/pipeline-badges@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          coverage: codecov
