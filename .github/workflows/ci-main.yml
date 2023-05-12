@@ -32,3 +32,33 @@ jobs:
       - name: Test
         run: cargo test
 
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      
+      - name: create coverage directory
+        run: mkdir -p coverage
+        
+      - name: Install Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: ${{ env.RUST_VERSION_STABLE }}
+          profile: minimal
+          override: true
+      
+      - name: Install tarpaulin
+        uses: actions-rs/cargo@v1
+        with:
+          command: install cargo-tarpaulin
+          force: true
+      
+      - name: Run tarpaulin
+        uses: actions-rs/cargo@v1
+        with:
+          command: tarpaulin --out Xml --out Lcov --output-dir ./coverage/lcov.info
+          force: true
+      
+      - name: Coveralls
+        uses: coverallsapp/github-action@v2 
