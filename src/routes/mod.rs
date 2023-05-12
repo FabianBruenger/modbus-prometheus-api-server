@@ -19,7 +19,8 @@ pub async fn create_client(
     // Check if the Configuration (Client) is not already present. Reject if it is. Then client can only be updated or deleted
     let client_name = client_input.name.clone();
     let client_config_json_name = format!("{}.json", &client_name);
-    if let Err(e) = helpers::check_fs_config(&client_config_json_name) {
+    let config_path = clients.lock().await.get_config_path().to_owned();
+    if let Err(e) = helpers::check_fs_config(&client_config_json_name, &config_path) {
         return Err(warp::reject::custom(e));
     }
     // check if all string in the client have either lowercase, numbers or underscore
@@ -27,7 +28,7 @@ pub async fn create_client(
         return Err(warp::reject::custom(e));
     }
     // Store the config to local FS
-    if let Err(e) = helpers::write_config(&client_input) {
+    if let Err(e) = helpers::write_config(&client_input, &config_path) {
         return Err(warp::reject::custom(e));
     }
     // Add Counters for each register to the registry and register them
@@ -73,6 +74,7 @@ pub async fn delete_client(
     registry: Arc<Mutex<PrometheusMetrics>>,
 ) -> Result<impl warp::Reply, warp::Rejection> {
     println!("Trying to delete client via DELETE /clients/{}.", &client);
+    let config_path = clients.lock().await.get_config_path().to_owned();
     // Check if client exists
     if let None = clients.lock().await.clients.get(&client) {
         return Err(warp::reject::custom(CustomErrors::ClientNotFound(Some(
@@ -90,7 +92,7 @@ pub async fn delete_client(
     // Remove the client from the Clients struct
     clients.lock().await.delete_client(&client);
     // Remove the config from the local FS
-    if let Err(e) = helpers::delete_config(&client) {
+    if let Err(e) = helpers::delete_config(&client, &config_path) {
         return Err(warp::reject::custom(e));
     }
     Ok(warp::reply::reply())

@@ -1,16 +1,15 @@
 use super::Clients;
 use crate::prometheus::PrometheusMetrics;
 use crate::utils;
-use std::net::{IpAddr, Ipv4Addr, SocketAddr};
 use std::sync::Arc;
 use std::time::Duration;
 use tokio::sync::Mutex;
 use tokio_modbus::prelude::*;
 
 // Side thread for gathering data of all registered modbus client. The data is then stored in the prometheus Variables
-pub async fn read_data(registry: Arc<Mutex<PrometheusMetrics>>, clients: Arc<Mutex<Clients>>) {
+pub async fn read_data(registry: Arc<Mutex<PrometheusMetrics>>, clients: Arc<Mutex<Clients>>, intervall: u64) {
     let mut read_data_interval =
-        tokio::time::interval(Duration::from_millis(crate::DATA_COLLECTOR_TIME as u64));
+        tokio::time::interval(Duration::from_millis(intervall));
     loop {
         read_data_interval.tick().await;
         for client in clients.lock().await.clients.values_mut() {

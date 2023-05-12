@@ -6,9 +6,9 @@ use std::fs::{self, File};
 use std::io::Write;
 
 // Write JSON to local file. Filename <client name>.json
-pub fn write_config(client: &Client) -> Result<(), ErrorRuntime> {
+pub fn write_config(client: &Client, config: &str) -> Result<(), ErrorRuntime> {
     let config_name = format!("{}.json", &client.name);
-    let config_path = format!("{}/{}", crate::CLIENT_CONFIG_PATH, &config_name);
+    let config_path = format!("{}/{}", config, &config_name);
     
     let config_json = match serde_json::to_string_pretty(&client){
         Ok(config_json) => config_json,
@@ -27,9 +27,9 @@ pub fn write_config(client: &Client) -> Result<(), ErrorRuntime> {
     Ok(())
 }
 // Delete JSON to local file. Filename <client name>.json
-pub fn delete_config(name: &str) -> Result<(), ErrorRuntime> {
+pub fn delete_config(name: &str, config: &str) -> Result<(), ErrorRuntime> {
     let config_name = format!("{}.json", name);
-    let config_path = format!("{}/{}", crate::CLIENT_CONFIG_PATH, &config_name);
+    let config_path = format!("{}/{}", config, &config_name);
     if let Err(_) = fs::remove_file(&config_path) {
         return Err(ErrorRuntime::FSFileDeleteError);
     }
@@ -67,12 +67,12 @@ pub fn check_client_strings(input: &Value) -> Result<(), ErrorRuntime> {
     Ok(())
 }
 // Check if the client already exists
-pub fn check_fs_config(client_file_name: &str) -> Result<(), ErrorRuntime> {
+pub fn check_fs_config(client_file_name: &str, config: &str) -> Result<(), ErrorRuntime> {
     println!(
         "Trying to create new client via POST /clients. Checking if the client already exists from local JSON."
     );
 
-    if let Ok(client_files_local) = get_local_config_files() {
+    if let Ok(client_files_local) = get_local_config_files(config) {
         if client_files_local.len() > 0 {
             if client_files_local.contains(&client_file_name.to_string()) {
                 return Err(ErrorRuntime::ClientExists);
@@ -83,10 +83,10 @@ pub fn check_fs_config(client_file_name: &str) -> Result<(), ErrorRuntime> {
     Ok(())
 }
 // Get local config files
-pub fn get_local_config_files() -> Result<Vec<String>, ErrorRuntime> {
+pub fn get_local_config_files(config: &str) -> Result<Vec<String>, ErrorRuntime> {
     let mut config_files: Vec<String> = Vec::new();
 
-    let config_list: fs::ReadDir = match fs::read_dir(crate::CLIENT_CONFIG_PATH) {
+    let config_list: fs::ReadDir = match fs::read_dir(config) {
         Ok(config_list) => config_list,
         Err(_) => return Err(ErrorRuntime::FSReadDirError),
     };
@@ -102,10 +102,10 @@ pub fn get_local_config_files() -> Result<Vec<String>, ErrorRuntime> {
     Ok(config_files)
 }
 // Get local config files paths
-pub fn get_local_config_files_full_path() -> Result<Vec<String>, ErrorRuntime> {
+pub fn get_local_config_files_full_path(config: String) -> Result<Vec<String>, ErrorRuntime> {
     let mut config_files: Vec<String> = Vec::new();
 
-    let config_list: fs::ReadDir = match fs::read_dir(crate::CLIENT_CONFIG_PATH) {
+    let config_list: fs::ReadDir = match fs::read_dir(config) {
         Ok(config_list) => config_list,
         Err(_) => return Err(ErrorRuntime::FSReadDirError),
     };

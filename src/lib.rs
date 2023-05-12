@@ -6,9 +6,6 @@ pub mod logging;
 pub mod utils;
 pub mod configuration;
 
-const CLIENT_CONFIG_PATH: &str = "/Users/fabianbrunger/Library/Mobile Documents/com~apple~CloudDocs/Programming/EMS/ems-backend/config";
-const DATA_COLLECTOR_TIME: u16 = 1000; // in ms
-
 #[allow(dead_code)]
 #[allow(unused_variables)]
 // Test JSON GET string
