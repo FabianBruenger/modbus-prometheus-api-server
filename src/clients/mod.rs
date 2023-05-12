@@ -1,6 +1,5 @@
 use crate::errors::impls::ErrorRuntime;
 use crate::routes::helpers;
-// use anyhow::Result;
 use serde::{Deserialize, Serialize};
 use std::{collections::HashMap, fs};
 
@@ -9,17 +8,19 @@ pub mod read_data;
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Clients {
     pub clients: HashMap<String, Client>,
+    config: String,
 }
 impl Clients {
-    pub fn new() -> Self {
+    pub fn new(config: &str) -> Self {
         Self {
             clients: HashMap::new(),
+            config: config.to_owned(),
         }
     }
     // read local JSON configs and initialize all known clients
     pub fn init(&mut self) -> Result<(), ErrorRuntime> {
         // get all local config files
-        if let Ok(config_files) = helpers::get_local_config_files_full_path() {
+        if let Ok(config_files) = helpers::get_local_config_files_full_path(self.get_config_path().to_owned()) {
             if config_files.len() > 0 {
                 for config_file in config_files {
                     let json_string = match fs::read_to_string(config_file) {
@@ -38,6 +39,10 @@ impl Clients {
     }
     pub fn delete_client(&mut self, name: &str) {
         self.clients.remove(name);
+    }
+    // Get config path
+    pub fn get_config_path(&self) -> &str {
+        &self.config
     }
 }
 #[derive(Debug, Serialize, Deserialize)]

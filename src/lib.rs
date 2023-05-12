@@ -4,9 +4,7 @@ pub mod routes;
 pub mod prometheus;
 pub mod logging;
 pub mod utils;
-
-const CLIENT_CONFIG_PATH: &str = "/Users/fabianbrunger/Library/Mobile Documents/com~apple~CloudDocs/Programming/EMS/ems-backend/config";
-const DATA_COLLECTOR_TIME: u16 = 1000; // in ms
+pub mod configuration;
 
 #[allow(dead_code)]
 #[allow(unused_variables)]
