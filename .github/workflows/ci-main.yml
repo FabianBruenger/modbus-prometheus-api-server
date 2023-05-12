@@ -49,16 +49,10 @@ jobs:
           override: true
       
       - name: Install tarpaulin
-        uses: actions-rs/cargo@v1
-        with:
-          command: install cargo-tarpaulin
-          force: true
+        run: cargo install cargo-tarpaulin
       
       - name: Run tarpaulin
-        uses: actions-rs/cargo@v1
-        with:
-          command: tarpaulin --out Xml --out Lcov --output-dir ./coverage/lcov.info
-          force: true
+        run: cargo tarpaulin --out Xml --out Lcov --output-dir ./coverage/lcov.info
       
       - name: Coveralls
         uses: coverallsapp/github-action@v2 
