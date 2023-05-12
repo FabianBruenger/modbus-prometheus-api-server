@@ -21,7 +21,7 @@ pub fn write_config(client: &Client, config: &str) -> Result<(), ErrorRuntime> {
     if let Err(_) = config_file.write_all(config_json.as_bytes()) {
         return Err(ErrorRuntime::FSFileCreateError);
     }
-    println!(
+    log::info!(
         "Created new client via POST /clients. Stored the client config to {}",
         &config_path);
     Ok(())
@@ -33,7 +33,7 @@ pub fn delete_config(name: &str, config: &str) -> Result<(), ErrorRuntime> {
     if let Err(_) = fs::remove_file(&config_path) {
         return Err(ErrorRuntime::FSFileDeleteError);
     }
-    println!(
+    log::info!(
         "Deleted client via DELETE /clients/<name>. Removed the client config from {}",
         &config_path);
     Ok(())
@@ -68,7 +68,7 @@ pub fn check_client_strings(input: &Value) -> Result<(), ErrorRuntime> {
 }
 // Check if the client already exists
 pub fn check_fs_config(client_file_name: &str, config: &str) -> Result<(), ErrorRuntime> {
-    println!(
+    log::info!(
         "Trying to create new client via POST /clients. Checking if the client already exists from local JSON."
     );
 

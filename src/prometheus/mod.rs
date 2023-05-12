@@ -23,7 +23,7 @@ impl PrometheusMetrics {
         // check if clients are initialized
         let clients = clients.lock().await;
         if clients.clients.is_empty() {
-            println!("No clients initialized. Please initialize clients first.");
+            log::warn!("No clients initialized. Please initialize clients first.");
             return Ok(());
         } else {
             for (client_name, client) in clients.clients.iter() {

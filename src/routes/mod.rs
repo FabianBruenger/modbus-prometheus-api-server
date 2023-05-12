@@ -73,7 +73,7 @@ pub async fn delete_client(
     clients: Arc<Mutex<Clients::Clients>>,
     registry: Arc<Mutex<PrometheusMetrics>>,
 ) -> Result<impl warp::Reply, warp::Rejection> {
-    println!("Trying to delete client via DELETE /clients/{}.", &client);
+    log::info!("Trying to delete client via DELETE /clients/{}.", &client);
     let config_path = clients.lock().await.get_config_path().to_owned();
     // Check if client exists
     if let None = clients.lock().await.clients.get(&client) {
