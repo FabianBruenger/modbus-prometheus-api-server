@@ -18,14 +18,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        
       - name: Install Rust toolchain
         uses: actions-rs/toolchain@v1
         with:
           toolchain: ${{ env.RUST_VERSION_STABLE }}
           profile: minimal
           override: true
+
       - name: Build
-        run: cargo build --all-targets
+        run: cargo Build
+
       - name: Test
         run: cargo test
 
