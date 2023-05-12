@@ -1,5 +1,8 @@
 = Modbus Prometheus API Server
+image::https://coveralls.io/repos/github/FabianBruenger/modbus-prometheus-api-server/badge.svg?branch=main[Terraform Core,link="https://coveralls.io/github/FabianBruenger/modbus-prometheus-api-server?branch=main"]
 :toc:
+
+
 
 == API routes
 

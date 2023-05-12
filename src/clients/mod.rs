@@ -451,63 +451,88 @@ mod test {
             "registers": [
               {
                 "name": "test_register_1",
+                "objecttype": "holding",
                 "address": 0,
                 "length": 1,
                 "datatype": "int16",
-                "factor": 2,
-                "read": true,
-                "write": false,
+                "factor": 0,
                 "value": 0
               },
               {
                 "name": "test_register_2",
-                "address": 1,
+                "objecttype": "input",
+                "address": 0,
                 "length": 1,
                 "datatype": "int16",
-                "factor": -3,
-                "read": true,
-                "write": false,
+                "factor": 0,
                 "value": 0
+              }
+            ],
+            "coils": [
+              {
+                "name": "test_coil_1",
+                "objecttype": "coil",
+                "address": 0,
+                "value": false
+              },
+              {
+                "name": "test_coil_2",
+                "objecttype": "discrete",
+                "address": 0,
+                "value": false
               }
             ]
           }"#;
 
         let client = Client::new(test_json_config_ok.to_string());
-        assert_eq!(client.unwrap().verify().is_ok(), true);
+        println!("{:?}", client);
+        assert_eq!(client.is_ok(), true);
     }
     #[test]
     fn test_client_verify_not_ok_wrong_name() {
         let test_json_config_not_ok = r#"{
-            "name": "test_client wrong",
+            "name": "client wrong name",
             "ip_address": "127.0.0.1",
             "port": 8081,
             "protocol": "tcp",
             "registers": [
               {
                 "name": "test_register_1",
+                "objecttype": "holding",
                 "address": 0,
                 "length": 1,
                 "datatype": "int16",
-                "factor": 2,
-                "read": true,
-                "write": false,
+                "factor": 0,
                 "value": 0
               },
               {
                 "name": "test_register_2",
-                "address": 1,
+                "objecttype": "input",
+                "address": 0,
                 "length": 1,
                 "datatype": "int16",
-                "factor": -3,
-                "read": true,
-                "write": false,
+                "factor": 0,
                 "value": 0
+              }
+            ],
+            "coils": [
+              {
+                "name": "test_coil_1",
+                "objecttype": "coil",
+                "address": 0,
+                "value": false
+              },
+              {
+                "name": "test_coil_2",
+                "objecttype": "discrete",
+                "address": 0,
+                "value": false
               }
             ]
           }"#;
 
         let client = Client::new(test_json_config_not_ok.to_string());
-        assert_eq!(client.unwrap().verify().is_err(), true);
+        assert_eq!(client.is_err(), true);
     }
     #[test]
     fn test_client_verify_not_ok_wrong_protocol() {
@@ -515,33 +540,45 @@ mod test {
             "name": "test_client",
             "ip_address": "127.0.0.1",
             "port": 8081,
-            "protocol": "other than tcp",
+            "protocol": "wrong protocol",
             "registers": [
               {
                 "name": "test_register_1",
+                "objecttype": "holding",
                 "address": 0,
                 "length": 1,
                 "datatype": "int16",
-                "factor": 2,
-                "read": true,
-                "write": false,
+                "factor": 0,
                 "value": 0
               },
               {
                 "name": "test_register_2",
-                "address": 1,
+                "objecttype": "input",
+                "address": 0,
                 "length": 1,
                 "datatype": "int16",
-                "factor": -3,
-                "read": true,
-                "write": false,
+                "factor": 0,
                 "value": 0
+              }
+            ],
+            "coils": [
+              {
+                "name": "test_coil_1",
+                "objecttype": "coil",
+                "address": 0,
+                "value": false
+              },
+              {
+                "name": "test_coil_2",
+                "objecttype": "discrete",
+                "address": 0,
+                "value": false
               }
             ]
           }"#;
 
         let client = Client::new(test_json_config_not_ok.to_string());
-        assert_eq!(client.unwrap().verify().is_err(), true);
+        assert_eq!(client.is_err(), true);
     }
     #[test]
     fn test_client_verify_not_ok_wrong_register_name() {
@@ -552,30 +589,42 @@ mod test {
             "protocol": "tcp",
             "registers": [
               {
-                "name": "test_register 1",
+                "name": "wrong name",
+                "objecttype": "holding",
                 "address": 0,
                 "length": 1,
                 "datatype": "int16",
-                "factor": 2,
-                "read": true,
-                "write": false,
+                "factor": 0,
                 "value": 0
               },
               {
                 "name": "test_register_2",
-                "address": 1,
+                "objecttype": "input",
+                "address": 0,
                 "length": 1,
                 "datatype": "int16",
-                "factor": -3,
-                "read": true,
-                "write": false,
+                "factor": 0,
                 "value": 0
+              }
+            ],
+            "coils": [
+              {
+                "name": "test_coil_1",
+                "objecttype": "coil",
+                "address": 0,
+                "value": false
+              },
+              {
+                "name": "test_coil_2",
+                "objecttype": "discrete",
+                "address": 0,
+                "value": false
               }
             ]
           }"#;
 
         let client = Client::new(test_json_config_not_ok.to_string());
-        assert_eq!(client.unwrap().verify().is_err(), true);
+        assert_eq!(client.is_err(), true);
     }
     #[test]
     fn test_client_verify_not_ok_wrong_register_datatype() {
@@ -587,28 +636,40 @@ mod test {
             "registers": [
               {
                 "name": "test_register_1",
+                "objecttype": "wrong",
                 "address": 0,
                 "length": 1,
-                "datatype": "wrong",
-                "factor": 2,
-                "read": true,
-                "write": false,
+                "datatype": "int16",
+                "factor": 0,
                 "value": 0
               },
               {
                 "name": "test_register_2",
-                "address": 1,
+                "objecttype": "input",
+                "address": 0,
                 "length": 1,
                 "datatype": "int16",
-                "factor": -3,
-                "read": true,
-                "write": false,
+                "factor": 0,
                 "value": 0
+              }
+            ],
+            "coils": [
+              {
+                "name": "test_coil_1",
+                "objecttype": "coil",
+                "address": 0,
+                "value": false
+              },
+              {
+                "name": "test_coil_2",
+                "objecttype": "discrete",
+                "address": 0,
+                "value": false
               }
             ]
           }"#;
 
         let client = Client::new(test_json_config_not_ok.to_string());
-        assert_eq!(client.unwrap().verify().is_err(), true);
+        assert_eq!(client.is_err(), true);
     }
 }

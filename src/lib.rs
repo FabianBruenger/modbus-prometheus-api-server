@@ -13,26 +13,44 @@ const DATA_COLLECTOR_TIME: u16 = 1000; // in ms
 // Test JSON GET string
 const JSON_STRING_OK: &str = r#"{
     "name": "test_client",
-    "ip_address": "123.23.54.678",
+    "ip_address": "127.0.0.1",
+    "port": 8081,
+    "protocol": "tcp",
     "registers": [
-        {
-            "name": "test_register_1",
-            "address": 1,
-            "datatype": "int16",
-            "read": true,
-            "write": false,
-            "value": 0
-        },
-        {
-            "name": "test_register_2",
-            "address": 2,
-            "datatype": "int16",
-            "read": true,
-            "write": false,
-            "value": 0
-        }
+      {
+        "name": "test_register_1",
+        "objecttype": "holding",
+        "address": 0,
+        "length": 1,
+        "datatype": "int16",
+        "factor": 0,
+        "value": 0
+      },
+      {
+        "name": "test_register_2",
+        "objecttype": "input",
+        "address": 0,
+        "length": 1,
+        "datatype": "int16",
+        "factor": 0,
+        "value": 0
+      }
+    ],
+    "coils": [
+      {
+        "name": "test_coil_1",
+        "objecttype": "coil",
+        "address": 0,
+        "value": false
+      },
+      {
+        "name": "test_coil_2",
+        "objecttype": "discrete",
+        "address": 0,
+        "value": false
+      }
     ]
-}"#;
+  }"#;
 
 #[allow(dead_code)]
 #[allow(unused_variables)]
