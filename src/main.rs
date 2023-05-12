@@ -1,15 +1,36 @@
 use modbus_prometheus_api_server::clients as Clients;
+use modbus_prometheus_api_server::configuration as Configuration;
 use modbus_prometheus_api_server::errors as Errors;
 use modbus_prometheus_api_server::logging as CustomLog;
 use modbus_prometheus_api_server::prometheus as Prometheus;
 use modbus_prometheus_api_server::routes as Route;
+
+use env_logger::Env;
 use std::sync::Arc;
 use tokio::sync::Mutex;
 use warp::{http::Method, Filter};
+use config::Config;
 
 #[tokio::main]
 async fn main() {
-    env_logger::init();
+    // Read configuration file
+    let config = match Config::builder()
+        .add_source(config::File::with_name("setup"))
+        .build()
+    {
+        Ok(config) => config,
+        Err(e) => {
+            panic!("Error reading configuration file: {}", e);
+        }
+    };
+    let config = match config.try_deserialize::<Configuration::Args>(){
+        Ok(config) => config,
+        Err(e) => {
+            panic!("Error deserializing file: {}", e);
+        }
+    };
+
+    env_logger::Builder::from_env(Env::default().default_filter_or(config.log_level)).init();
 
     let log_filter = warp::log::custom(|info| {
         log::info!(
@@ -126,5 +147,5 @@ async fn main() {
         .with(log_filter)
         .recover(Errors::return_error);
 
-    warp::serve(routes).run(([127, 0, 0, 1], 3030)).await;
+    warp::serve(routes).run(([127, 0, 0, 1], config.port)).await;
 }
