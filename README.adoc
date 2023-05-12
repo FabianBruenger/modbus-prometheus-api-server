@@ -1,9 +1,11 @@
-:toc:
 = Modbus Prometheus API Server
+:toc:
 
 image::https://coveralls.io/repos/github/FabianBruenger/modbus-prometheus-api-server/badge.svg?branch=main[Terraform Core,link="https://coveralls.io/github/FabianBruenger/modbus-prometheus-api-server?branch=main"]
 
 == Introduction
+
+This server is a REST API server to access Modbus registers and coils. It is written in Rust and uses the [actix-web](https://actix.rs/ "actix-web") framework. It uses the modbus-async. Additionally it provides a Prometheus endpoint to access the Modbus registers and coils as Prometheus metrics. The current limit of clients is 10.
 
 == API routes
 
@@ -47,24 +49,25 @@ image::https://coveralls.io/repos/github/FabianBruenger/modbus-prometheus-api-se
 |Set a specific coil (coil)
 |===
 
-== Testing
+== Get started
 
-Starting  the Prometheus with `docker run -p 9090:9090 prometheus`
+=== Run Docker Modbus Prometheus API Server
 
-Start Modbus test client with Node-Red:
+=== Run Docker Node-Red (Modbus Server for testing)
 
-- Copy files from Node-Red container to local file: `docker cp <docker-id>:data docker/node_red_data`
+Node-red is used for simulating a Modbus server. You can build a modbus test server (corresponding to the `.config/test_client.json`) with: +
+    `cd docker /docker/node-red && build -t modbus-test-server .` 
 
-== Set Logging
+Then you can start the Node-Red Container with: +
+    `docker run -p 1880:1880 -p 8081:8081 modbus-test-server`
 
-`RUST_LOG=info cargo run`
+=== Run Docker Prometheus (3rd party to test /metrics endpoint)
 
-* debug—Used for debugging during development
-* info—Information purposes only
-* warning—Indicates not mission-critical problems
-* error—A typical error such as a closed database connection
-* trace—Used in one-off debugging or builds, indicates fine-grained logging
-* critical—Indicates mission-critical errors that should be addressed immediately
+You can build the Prometheus Image locally with: +
+    `cd docker /docker/prometheus && build -t prometheus .`
+
+Then you can start the Prometheus with: +
+    `docker run -p 9090:9090 prometheus`
 
 == Links
 

@@ -1,0 +1,230 @@
+[
+    {
+        "id": "49f88f3c9fd6b6b5",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "433f726352ca16cd",
+        "type": "modbus-server",
+        "z": "49f88f3c9fd6b6b5",
+        "name": "test_client",
+        "logEnabled": true,
+        "hostname": "0.0.0.0",
+        "serverPort": "8081",
+        "responseDelay": 100,
+        "delayUnit": "ms",
+        "coilsBufferSize": "2",
+        "holdingBufferSize": "2",
+        "inputBufferSize": "2",
+        "discreteBufferSize": "2",
+        "showErrors": true,
+        "x": 770,
+        "y": 260,
+        "wires": [
+            [],
+            [],
+            [],
+            [],
+            [
+                "ced5e77ae28279a1"
+            ]
+        ]
+    },
+    {
+        "id": "3a52299c274862ba",
+        "type": "debug",
+        "z": "49f88f3c9fd6b6b5",
+        "name": "holding (r&w)",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 970,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "ab1bb659e23dc398",
+        "type": "function",
+        "z": "49f88f3c9fd6b6b5",
+        "name": "write holding",
+        "func": "msg.payload = { 'value': 65535, 'register': 'holding', 'address': 0, 'disableMsgOutput' : 0 }; \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 550,
+        "y": 200,
+        "wires": [
+            [
+                "433f726352ca16cd"
+            ]
+        ]
+    },
+    {
+        "id": "db836189aefb8a9f",
+        "type": "inject",
+        "z": "49f88f3c9fd6b6b5",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "x": 330,
+        "y": 260,
+        "wires": [
+            [
+                "ab1bb659e23dc398",
+                "fa404e75a6d87578",
+                "1ead9be57ed812c5",
+                "dfb05bd12ca87742"
+            ]
+        ]
+    },
+    {
+        "id": "fa404e75a6d87578",
+        "type": "function",
+        "z": "49f88f3c9fd6b6b5",
+        "name": "write input",
+        "func": "msg.payload = { 'value': 568, 'register': 'input', 'address': 0, 'disableMsgOutput' : 0 }; \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 550,
+        "y": 240,
+        "wires": [
+            [
+                "433f726352ca16cd"
+            ]
+        ]
+    },
+    {
+        "id": "1ead9be57ed812c5",
+        "type": "function",
+        "z": "49f88f3c9fd6b6b5",
+        "name": "write coils",
+        "func": "msg.payload = { 'value': 1, 'register': 'coils', 'address': 0, 'disableMsgOutput' : 0 }; \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 280,
+        "wires": [
+            [
+                "433f726352ca16cd"
+            ]
+        ]
+    },
+    {
+        "id": "dfb05bd12ca87742",
+        "type": "function",
+        "z": "49f88f3c9fd6b6b5",
+        "name": "write discrete",
+        "func": "msg.payload = { 'value': 0, 'register': 'discrete', 'address': 0, 'disableMsgOutput' : 0 }; \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 320,
+        "wires": [
+            [
+                "433f726352ca16cd"
+            ]
+        ]
+    },
+    {
+        "id": "a4b4ab4506e64d4c",
+        "type": "debug",
+        "z": "49f88f3c9fd6b6b5",
+        "name": "coils (r&w)",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 970,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "c3b3151347d3e141",
+        "type": "debug",
+        "z": "49f88f3c9fd6b6b5",
+        "name": "input (r)",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 960,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "522d25ba5c178cd4",
+        "type": "debug",
+        "z": "49f88f3c9fd6b6b5",
+        "name": "discrete (r)",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 970,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "ced5e77ae28279a1",
+        "type": "debug",
+        "z": "49f88f3c9fd6b6b5",
+        "name": "request",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 960,
+        "y": 340,
+        "wires": []
+    }
+]
