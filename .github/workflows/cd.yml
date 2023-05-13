@@ -13,4 +13,4 @@ jobs:
 
       - name: Build Docker images
         run: |
-          docker build -t modbus-prometheus-api-server:macos-m1-latest docker/modbus-prometheus-api-server/macOS-M1/Dockerfile
+          docker build -t modbus-prometheus-api-server:macos-m1-latest docker/modbus-prometheus-api-server/macOS-M1/Dockerfile .
