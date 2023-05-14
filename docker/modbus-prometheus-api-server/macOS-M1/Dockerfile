@@ -15,8 +15,7 @@ RUN mkdir config
 # Copy files & dirs selectivly
 COPY ./Cargo.toml .
 COPY ./src ./src
-COPY ./config/setup-prod.toml ./setup.toml
-COPY ./config/test_client.json ./config
+COPY ./docker/modbus-prometheus-api-server/setup-prod.toml ./setup.toml
 
 # For a musl build on M1 Macs, these ENV variables have to be set
 ENV RUSTFLAGS='-C linker=x86_64-linux-gnu-gcc'
