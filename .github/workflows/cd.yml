@@ -1,9 +1,13 @@
 name: Rust CD
 
 on:
-  workflow_run:
-    workflows: ["Rust CI"]
-    types: [completed]
+  # workflow_run:
+  #   workflows: ["Rust CI"]
+  #   types: [completed]
+  push:
+    tags:
+      - '*'
+  
 
 jobs:
   build-docker-image-mac-m1:
