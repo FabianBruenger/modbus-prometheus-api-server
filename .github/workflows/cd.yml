@@ -21,9 +21,10 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: rust:latest
-    # env:
-    #   RUSTFLAGS: '-C linker=x86_64-linux-gnu-gcc'
-    #   CC: 'gcc'
+    env:
+      # RUSTFLAGS: '-C linker=x86_64-linux-gnu-gcc'
+      RUSTFLAGS: '-C linker=aarch64-apple-darwin'
+      CC: 'gcc'
     #   CC_x86_64_unknown_linux_musl: x86_64-linux-gnu-gcc
 
     steps:
@@ -41,10 +42,6 @@ jobs:
           apt -y update
           apt install -y musl-tools musl-dev gcc-x86-64-linux-gnu
           apt-get install -y build-essential libssl-dev pkg-config
-
-      - uses: mbround18/setup-osxcross@v1
-        with:
-          osx-version: "12.3"
       
       - name: Build Mac M1 binary
         run: cargo build --target aarch64-apple-darwin --release
