@@ -18,13 +18,13 @@ jobs:
   #         docker build -t modbus-prometheus-api-server:macos-m1-latest -f docker/modbus-prometheus-api-server/macOS-M1/Dockerfile .
 
   build-mac-m1-bin:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     container:
       image: rust:latest
-    env:
+    # env:
       # RUSTFLAGS: '-C linker=x86_64-linux-gnu-gcc'
-      RUSTFLAGS: '-C linker=aarch64-apple-darwin'
-      CC: 'gcc'
+      # RUSTFLAGS: '-C linker=aarch64-apple-darwin'
+      # CC: 'gcc'
     #   CC_x86_64_unknown_linux_musl: x86_64-linux-gnu-gcc
 
     steps:
@@ -39,9 +39,7 @@ jobs:
       - name: Install Mac M1 toolchain
         run: |
           rustup target add aarch64-apple-darwin
-          apt -y update
-          apt install -y musl-tools musl-dev gcc-x86-64-linux-gnu
-          apt-get install -y build-essential libssl-dev pkg-config
+          brew install openssl@3
       
       - name: Build Mac M1 binary
         run: cargo build --target aarch64-apple-darwin --release
