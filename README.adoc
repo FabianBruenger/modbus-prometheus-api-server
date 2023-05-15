@@ -9,8 +9,6 @@ image::https://coveralls.io/repos/github/FabianBruenger/modbus-prometheus-api-se
 
 This server is a REST API server to access Modbus registers and coils. It is written in Rust and uses the https://docs.rs/warp/latest/warp/[warp-web] framework. It uses the modbus-async. Additionally it provides a Prometheus endpoint to access the Modbus registers and coils as Prometheus metrics. The current limit of clients is 10.
 
-Supported Modbus functions (FCs):
-
 == API routes
 
 [cols="1,1,1,1"]
@@ -55,7 +53,9 @@ Supported Modbus functions (FCs):
 
 == Get started
 
-image::testing.png[Testing,align="center"]
+The following graph show the testing architecture for the current version. The Modbus server is simulated with Node-red. The Prometheus server is running in a docker container. The Modbus Prometheus API Server is running on the host machine.
+
+image::testing.png[Testing,align="center",width="70%"]
 
 === Build and run the Applications
 
@@ -98,6 +98,11 @@ You can monitor the applications with the following URLs:
 * http://localhost:3000[Grafana] (optional)
 * http://localhost:9090[Prometheus] (Prometheus metrics)
 * http://localhost:1880[Node-red] (Modbus server)
+
+=== Supported Modbus FC
+
+The following Modbus FC are supported and are based on the 
+
 
 === Add a client
 
