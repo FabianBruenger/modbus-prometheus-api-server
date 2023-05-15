@@ -55,7 +55,7 @@ This server is a REST API server to access Modbus registers and coils. It is wri
 
 The following graph show the testing architecture for the current version. The Modbus server is simulated with Node-red. The Prometheus server is running in a docker container. The Modbus Prometheus API Server is running on the host machine.
 
-image::testing.png[Testing,align="center",width="70%"]
+image::testing.png[Testing, align="center", width="70%", float="right"]
 
 === Build and run the Applications
 
