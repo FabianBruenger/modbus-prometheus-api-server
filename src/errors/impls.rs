@@ -12,7 +12,7 @@ pub enum ErrorRuntime {
     ClientExists,
     ClientJsonParseError, // used when clients are created on init
     ClientRegisterNotFound(Option<String>),
-    ClientRegisterNotInput(Option<String>),
+    ClientRegisterNotWritable(Option<String>),
     ClientRegisterWriteGenericError,
     ClientCoilNotFound(Option<String>),
     ClientCoilNotInput(Option<String>),
@@ -33,6 +33,7 @@ pub enum ErrorRuntime {
     ValueNotParsableToU16(Option<String>),
     ValueNotParsableToBool(Option<String>),
     ClientRegisterWriteError(Option<String>),
+    NoParametersProvided,
 }
 impl Reject for ErrorRuntime {}
 #[derive(Debug)]

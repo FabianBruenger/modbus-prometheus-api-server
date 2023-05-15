@@ -89,7 +89,7 @@ pub async fn return_error(r: Rejection) -> Result<impl Reply, Rejection> {
             return_string,
             StatusCode::UNPROCESSABLE_ENTITY,
         ))
-    } else if let Some(impls::ErrorRuntime::ClientRegisterNotInput(register)) = r.find() {
+    } else if let Some(impls::ErrorRuntime::ClientRegisterNotWritable(register)) = r.find() {
         let return_string = format!(
             "Register {} is not writable. It is an input register.",
             register.as_ref().unwrap()
@@ -236,6 +236,12 @@ pub async fn return_error(r: Rejection) -> Result<impl Reply, Rejection> {
         log::error!("{}", return_string);
         Ok(warp::reply::with_status(
             return_string,
+            StatusCode::UNPROCESSABLE_ENTITY,
+        ))
+    } else if let Some(impls::ErrorRuntime::NoParametersProvided) = r.find() {
+        log::error!("NoParametersProvided");
+        Ok(warp::reply::with_status(
+            "If you want to write a register, please provide a parameter with: register_name=value. Value must be between 0:65535".to_string(),
             StatusCode::UNPROCESSABLE_ENTITY,
         ))
     } else {

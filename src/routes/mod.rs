@@ -132,7 +132,10 @@ pub async fn write_register(
     params: HashMap<String, String>,
     clients: Arc<Mutex<Clients::Clients>>,
 ) -> Result<impl Reply, Rejection> {
-    // Get parameter
+    // Check if parameters are provided and Get parameter
+    if params.is_empty() {
+        return Err(warp::reject::custom(CustomErrors::NoParametersProvided));
+    }
     let param = params.iter().next().unwrap();
     // Check if the value can be parsed as u16
     let value = match param.1.parse::<u16>() {
@@ -162,8 +165,8 @@ pub async fn write_register(
             Some(param.0.clone()),
         )));
     };
-    // Check if the register in writable = is input register
-    if !clients
+    // Check if the register in writable = is holding register
+    if clients
         .lock()
         .await
         .clients
@@ -171,7 +174,7 @@ pub async fn write_register(
         .unwrap()
         .is_register_input(param.0)
     {
-        return Err(warp::reject::custom(CustomErrors::ClientRegisterNotInput(
+        return Err(warp::reject::custom(CustomErrors::ClientRegisterNotWritable(
             Some(param.0.clone()),
         )));
     };
@@ -217,6 +220,9 @@ pub async fn write_coil(
     clients: Arc<Mutex<Clients::Clients>>,
 ) -> Result<impl Reply, Rejection> {
     // Get parameter
+    if params.is_empty() {
+        return Err(warp::reject::custom(CustomErrors::NoParametersProvided));
+    }
     let param = params.iter().next().unwrap();
     // Check if the value can be parsed as u16
     let value = match param.1.parse::<bool>() {

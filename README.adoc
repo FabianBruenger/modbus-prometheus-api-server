@@ -54,7 +54,7 @@ This server is a REST API server to access Modbus registers and coils. It is wri
 
 image::testing.png[Testing,align="center"]
 
-=== Build and run test dependencies: Modbus Test Server and Prometheus
+=== Build and run the Applications
 
 Node-red is used for simulating a Modbus server. You can build a modbus test server (corresponding to the `.config/test_client.json`) with: +
     `cd /docker/node-red && build -t modbus-test-server .` 
@@ -63,8 +63,22 @@ You can build the Prometheus Image locally with: +
     `cd /docker/prometheus && build -t prometheus .`
 
 After building both of the images, start the containers: +
-    `docker run -p 9090:9090 -p 3030:3030 prometheus` +
-    `docker run -p 1880:1880 -p 502:502 modbus-test-server`
+    `docker run -p 9090:9090 prometheus` +
+    `docker run -p 1880:1880 -p 502:502 modbus-test-server` +
+    `docker run -p 3000:3000 grafana/grafana-oss:latest` (extra, not needed) +
+
+If you add the Prometheus as a datasource, use the Container IP. You can get the IP with: +
+    `docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' <container-id>`
+
+Then you can start the server with: +
+    `cargo run`
+
+=== Monitor the Applications
+
+You can monitor the applications with the following URLs:
+* localhost:3000 (Grafana)
+* localhost:9090 (Prometheus)
+* localhost:1880 (Node-red)
 
 == Links
 

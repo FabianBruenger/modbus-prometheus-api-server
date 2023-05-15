@@ -1,4 +1,4 @@
-log_level = "info"
+log_level = "debug"
 port = 3030
 read_data_interval_ms = 3000
 config_path = "/Users/fabianbrunger/Library/Mobile Documents/com~apple~CloudDocs/Programming/EMS/modbus-prometheus-api-server/config"
