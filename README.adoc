@@ -6,7 +6,7 @@ image::https://coveralls.io/repos/github/FabianBruenger/modbus-prometheus-api-se
 
 == Introduction
 
-This server is a REST API server to access Modbus registers and coils. It is written in Rust and uses the https://actix.rs/[actix-web] framework. It uses the modbus-async. Additionally it provides a Prometheus endpoint to access the Modbus registers and coils as Prometheus metrics. The current limit of clients is 10.
+This server is a REST API server to access Modbus registers and coils. It is written in Rust and uses the https://docs.rs/warp/latest/warp/[warp-web] framework. It uses the modbus-async. Additionally it provides a Prometheus endpoint to access the Modbus registers and coils as Prometheus metrics. The current limit of clients is 10.
 
 == API routes
 
