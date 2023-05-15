@@ -8,6 +8,8 @@ image::https://coveralls.io/repos/github/FabianBruenger/modbus-prometheus-api-se
 
 This server is a REST API server to access Modbus registers and coils. It is written in Rust and uses the https://docs.rs/warp/latest/warp/[warp-web] framework. It uses the modbus-async. Additionally it provides a Prometheus endpoint to access the Modbus registers and coils as Prometheus metrics. The current limit of clients is 10.
 
+Supported Modbus functions (FCs):
+
 == API routes
 
 [cols="1,1,1,1"]
@@ -94,7 +96,53 @@ You can monitor the applications with the following URLs:
 
 * localhost:3000 (Grafana) 
 * localhost:9090 (Prometheus) 
-* localhost:1880 (Node-red) 
+* localhost:1880 (Node-red)
+
+=== Add a client
+
+[source, json]
+----
+{
+  "name": "test_client",
+  "ip_address": "127.0.0.1",
+  "port": 502,
+  "protocol": "tcp",
+  "registers": [
+    {
+      "name": "test_register_1",
+      "objecttype": "holding",
+      "address": 0,
+      "length": 1,
+      "datatype": "int16",
+      "factor": 0,
+      "value": 0
+    },
+    {
+      "name": "test_register_2",
+      "objecttype": "input",
+      "address": 0,
+      "length": 1,
+      "datatype": "int16",
+      "factor": 0,
+      "value": 0
+    }
+  ],
+  "coils": [
+    {
+      "name": "test_coil_1",
+      "objecttype": "coil",
+      "address": 0,
+      "value": false
+    },
+    {
+      "name": "test_coil_2",
+      "objecttype": "discrete",
+      "address": 0,
+      "value": false
+    }
+  ]
+}
+----
 
 == Links
 
