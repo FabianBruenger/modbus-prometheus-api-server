@@ -90,10 +90,11 @@ cargo run
 
 === Monitor the Applications
 
-You can monitor the applications with the following URLs: +
-* localhost:3000 (Grafana) +
-* localhost:9090 (Prometheus) +
-* localhost:1880 (Node-red) +
+You can monitor the applications with the following URLs: 
+
+* localhost:3000 (Grafana) 
+* localhost:9090 (Prometheus) 
+* localhost:1880 (Node-red) 
 
 == Links
 
