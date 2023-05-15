@@ -5,6 +5,8 @@ on:
   #   workflows: ["Rust CI"]
   #   types: [completed]
   push:
+    branches:
+      - release
     tags:
       - '*'
   
