@@ -1,79 +1,79 @@
 <mxfile host="65bd71144e">
     <diagram id="plttf0b8VAVj9cbuEqPP" name="Seite-1">
-        <mxGraphModel dx="906" dy="397" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+        <mxGraphModel dx="1063" dy="583" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#4D4D4D" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
-                <mxCell id="8" style="edgeStyle=none;html=1;exitX=0.25;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="3" target="7" edge="1">
+                <mxCell id="8" style="edgeStyle=none;html=1;exitX=0.25;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;fontColor=#FFFFFF;" parent="1" source="3" target="7" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="11" style="edgeStyle=none;html=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;fontSize=15;" parent="1" source="3" target="10" edge="1">
+                <mxCell id="11" style="edgeStyle=none;html=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;fontSize=15;fontColor=#FFFFFF;" parent="1" source="3" target="10" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="3" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;&lt;b&gt;Modbus-Prometheus-API-Server&lt;/b&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                <mxCell id="3" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;&lt;b&gt;Modbus-Prometheus-API-Server&lt;/b&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontColor=#000000;" parent="1" vertex="1">
                     <mxGeometry x="435" y="615" width="280" height="150" as="geometry"/>
                 </mxCell>
-                <mxCell id="6" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
+                <mxCell id="6" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontColor=#FFFFFF;" parent="1" vertex="1">
                     <mxGeometry as="geometry"/>
                 </mxCell>
-                <mxCell id="27" style="edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;fontSize=15;startArrow=classic;startFill=1;dashed=1;" parent="1" source="7" target="15" edge="1">
+                <mxCell id="27" style="edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;fontSize=15;startArrow=classic;startFill=1;dashed=1;fontColor=#FFFFFF;" parent="1" source="7" target="15" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
                             <mxPoint x="505" y="290"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="7" value="" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                <mxCell id="7" value="" style="ellipse;whiteSpace=wrap;html=1;fontColor=#FFFFFF;" parent="1" vertex="1">
                     <mxGeometry x="495" y="535" width="20" height="20" as="geometry"/>
                 </mxCell>
-                <mxCell id="9" value="API interface&lt;br&gt;port: 3030" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=15;" parent="1" vertex="1">
+                <mxCell id="9" value="API interface&lt;br&gt;port: 3030" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=15;fontColor=#FFFFFF;" parent="1" vertex="1">
                     <mxGeometry x="385" y="520" width="110" height="50" as="geometry"/>
                 </mxCell>
-                <mxCell id="10" value="" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                <mxCell id="10" value="" style="ellipse;whiteSpace=wrap;html=1;fontColor=#FFFFFF;" parent="1" vertex="1">
                     <mxGeometry x="635" y="535" width="20" height="20" as="geometry"/>
                 </mxCell>
-                <mxCell id="12" value="Modbus interface&lt;br&gt;port: 502" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=15;" parent="1" vertex="1">
+                <mxCell id="12" value="Modbus interface&lt;br&gt;port: 502" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=15;fontColor=#FFFFFF;" parent="1" vertex="1">
                     <mxGeometry x="644" y="520" width="140" height="50" as="geometry"/>
                 </mxCell>
-                <mxCell id="25" value="" style="group" parent="1" vertex="1" connectable="0">
+                <mxCell id="25" value="" style="group;fontColor=#FFFFFF;" parent="1" vertex="1" connectable="0">
                     <mxGeometry x="705" y="250" width="345" height="160" as="geometry"/>
                 </mxCell>
-                <mxCell id="19" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;&lt;b&gt;Node-Red&lt;br&gt;(Modbus test server)&lt;br&gt;&lt;/b&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=left;" parent="25" vertex="1">
+                <mxCell id="19" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;&lt;b&gt;Node-Red&lt;br&gt;(Modbus test server)&lt;br&gt;&lt;/b&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=left;fontColor=#000000;" parent="25" vertex="1">
                     <mxGeometry x="105" width="240" height="80" as="geometry"/>
                 </mxCell>
-                <mxCell id="20" value="" style="sketch=0;aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/mscae/Docker.svg;" parent="25" vertex="1">
+                <mxCell id="20" value="" style="sketch=0;aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/mscae/Docker.svg;fontColor=#FFFFFF;" parent="25" vertex="1">
                     <mxGeometry x="285" y="19.5" width="50" height="41" as="geometry"/>
                 </mxCell>
-                <mxCell id="21" value="" style="ellipse;whiteSpace=wrap;html=1;" parent="25" vertex="1">
+                <mxCell id="21" value="" style="ellipse;whiteSpace=wrap;html=1;fontColor=#FFFFFF;" parent="25" vertex="1">
                     <mxGeometry x="55" y="30" width="20" height="20" as="geometry"/>
                 </mxCell>
-                <mxCell id="18" style="edgeStyle=none;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;fontSize=15;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="25" source="19" target="21" edge="1">
+                <mxCell id="18" style="edgeStyle=none;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;fontSize=15;entryX=1;entryY=0.5;entryDx=0;entryDy=0;fontColor=#FFFFFF;" parent="25" source="19" target="21" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="65" y="40" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="22" value="API interface&lt;br&gt;port: 1880&lt;br&gt;Modbus interface&amp;nbsp;&lt;br&gt;port: 502" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=15;" parent="25" vertex="1">
+                <mxCell id="22" value="API interface&lt;br&gt;port: 1880&lt;br&gt;Modbus interface&amp;nbsp;&lt;br&gt;port: 502" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=15;fontColor=#FFFFFF;" parent="25" vertex="1">
                     <mxGeometry y="70" width="140" height="90" as="geometry"/>
                 </mxCell>
-                <mxCell id="26" value="" style="group" parent="1" vertex="1" connectable="0">
+                <mxCell id="26" value="" style="group;fontColor=#FFFFFF;" parent="1" vertex="1" connectable="0">
                     <mxGeometry x="110" y="250" width="330" height="150" as="geometry"/>
                 </mxCell>
-                <mxCell id="13" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;&lt;b&gt;Prometheus&lt;/b&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=right;" parent="26" vertex="1">
+                <mxCell id="13" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;&lt;b&gt;Prometheus&lt;/b&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=right;fontColor=#000000;" parent="26" vertex="1">
                     <mxGeometry width="240" height="80" as="geometry"/>
                 </mxCell>
-                <mxCell id="14" value="" style="sketch=0;aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/mscae/Docker.svg;" parent="26" vertex="1">
+                <mxCell id="14" value="" style="sketch=0;aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/mscae/Docker.svg;fontColor=#FFFFFF;" parent="26" vertex="1">
                     <mxGeometry x="10" y="19.5" width="50" height="41" as="geometry"/>
                 </mxCell>
-                <mxCell id="15" value="" style="ellipse;whiteSpace=wrap;html=1;" parent="26" vertex="1">
+                <mxCell id="15" value="" style="ellipse;whiteSpace=wrap;html=1;fontColor=#FFFFFF;" parent="26" vertex="1">
                     <mxGeometry x="270" y="30" width="20" height="20" as="geometry"/>
                 </mxCell>
-                <mxCell id="16" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=15;" parent="26" source="13" target="15" edge="1">
+                <mxCell id="16" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=15;fontColor=#FFFFFF;" parent="26" source="13" target="15" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="17" value="API interface&lt;br&gt;port: 3030&lt;br&gt;port: 9090" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=15;" parent="26" vertex="1">
+                <mxCell id="17" value="API interface&lt;br&gt;port: 3030&lt;br&gt;port: 9090" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=15;fontColor=#FFFFFF;" parent="26" vertex="1">
                     <mxGeometry x="220" y="80" width="110" height="70" as="geometry"/>
                 </mxCell>
-                <mxCell id="28" style="edgeStyle=none;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;dashed=1;fontSize=15;startArrow=classic;startFill=1;" parent="1" source="21" target="10" edge="1">
+                <mxCell id="28" style="edgeStyle=none;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;dashed=1;fontSize=15;startArrow=classic;startFill=1;fontColor=#FFFFFF;" parent="1" source="21" target="10" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
                             <mxPoint x="645" y="290"/>
