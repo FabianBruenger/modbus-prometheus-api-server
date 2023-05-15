@@ -32,7 +32,7 @@ jobs:
 
       - name: Get version number from tag
         id: get_version
-        run: echo ::set-output name=VERSION::${git describe}
+        run: echo "VERSION=$(git describe)" >> $GITHUB_ENV
 
       - name: Install Mac M1 toolchain
         run: |
@@ -51,7 +51,7 @@ jobs:
       - name: Upload Mac M1 binary
         uses: actions/upload-artifact@v2
         with:
-          name: modbus-prometheus-api-server-mac-m1-${{ steps.get_version.outputs.VERSION }}
+          name: modbus-prometheus-api-server-mac-m1-${{ env.VERSION }}
           path: target/x86_64-unknown-linux-musl/release/modbus-prometheus-api-server
 
 
