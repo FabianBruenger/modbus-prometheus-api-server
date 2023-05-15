@@ -1,7 +1,7 @@
 ---
 name: Feature request
 about: Suggest an idea for this project
-title: "[MPAS]"
+title: MPAS-
 labels: enhancement
 assignees: ''
 
