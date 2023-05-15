@@ -2,34 +2,24 @@ name: Rust CD
 
 on:
   push:
-    branches:
-      - main
     tags:
       - '*'
   
 jobs:
-  # build-docker-image-mac-m1:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
+  build-docker-image-mac-m1:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
 
-  #     - name: Build Docker images
-  #       run: |
-  #         docker build -t modbus-prometheus-api-server:macos-m1-latest -f docker/modbus-prometheus-api-server/macOS-M1/Dockerfile .
+      - name: Build Docker images
+        run: |
+          docker build -t modbus-prometheus-api-server:macos-m1-latest -f docker/modbus-prometheus-api-server/macOS-M1/Dockerfile .
 
   build-mac-m1-bin:
     runs-on: macos-latest
-    # container:
-    #   image: rust:latest
-    # env:
-      # RUSTFLAGS: '-C linker=x86_64-linux-gnu-gcc'
-      # RUSTFLAGS: '-C linker=aarch64-apple-darwin'
-      # CC: 'gcc'
-    #   CC_x86_64_unknown_linux_musl: x86_64-linux-gnu-gcc
-
     steps:
       - uses: actions/checkout@v3
-        with:
+        with: 
           fetch-depth: 0
       
       - name: Install Rust
@@ -54,6 +44,9 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: modbus-prometheus-api-server-mac-m1-${{ env.VERSION }}
-          path: target/aarch64-apple-darwin/release/modbus-prometheus-api-server
+          path: |
+            target/aarch64-apple-darwin/release/modbus-prometheus-api-server
+            setup.toml
+            config/
 
 

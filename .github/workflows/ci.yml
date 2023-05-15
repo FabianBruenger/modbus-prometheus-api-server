@@ -1,12 +1,13 @@
 name: Rust CI
 
 on:
-  # push:
-  #   branches:
-  #     - main
+  push:
+    branches:
+      - main
   pull_request:
     branches:
       - main
+      - release
 env:
   CARGO_TERM_COLOR: always
   RUST_VERSION_STABLE: 1.69.0
