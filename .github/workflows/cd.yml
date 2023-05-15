@@ -1,12 +1,9 @@
 name: Rust CD
 
 on:
-  # workflow_run:
-  #   workflows: ["Rust CI"]
-  #   types: [completed]
   push:
-    branches:
-      - release
+    # branches:
+    #   - release
     tags:
       - '*'
   
@@ -40,10 +37,10 @@ jobs:
           apt -y update
           apt install -y musl-tools musl-dev gcc-x86-64-linux-gnu
           apt-get install -y build-essential libssl-dev pkg-config
-          RUSTFLAGS='-C linker=x86_64-linux-gnu-gcc'
-          CC='gcc'
-          CC_x86_64_unknown_linux_musl=x86_64-linux-gnu-gcc
-          CC_x86_64-unknown-linux-musl=x86_64-linux-gnu-gcc
+          export RUSTFLAGS='-C linker=x86_64-linux-gnu-gcc'
+          export CC='gcc'
+          export CC_x86_64_unknown_linux_musl=x86_64-linux-gnu-gcc
+          export CC_x86_64-unknown-linux-musl=x86_64-linux-gnu-gcc
       
       - name: Build Mac M1 binary
         run: cargo build --target x86_64-unknown-linux-musl --release
