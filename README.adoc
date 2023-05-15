@@ -95,9 +95,9 @@ cargo run
 
 You can monitor the applications with the following URLs: 
 
-* localhost:3000 (Grafana) 
-* localhost:9090 (Prometheus) 
-* localhost:1880 (Node-red)
+* http://localhost:3000[Grafana] (optional)
+* http://localhost:9090[Prometheus] (Prometheus metrics)
+* http://localhost:1880[Node-red] (Modbus server)
 
 === Add a client
 
