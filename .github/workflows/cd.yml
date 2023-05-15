@@ -19,10 +19,10 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: rust:latest
-    env:
-      RUSTFLAGS: '-C linker=x86_64-linux-gnu-gcc'
-      CC: 'gcc'
-      CC_x86_64_unknown_linux_musl: x86_64-linux-gnu-gcc
+    # env:
+    #   RUSTFLAGS: '-C linker=x86_64-linux-gnu-gcc'
+    #   CC: 'gcc'
+    #   CC_x86_64_unknown_linux_musl: x86_64-linux-gnu-gcc
 
     steps:
       - uses: actions/checkout@v3
@@ -35,18 +35,18 @@ jobs:
 
       - name: Install Mac M1 toolchain
         run: |
-          rustup target add x86_64-unknown-linux-musl
+          rustup target add aarch64-apple-darwin
           apt -y update
           apt install -y musl-tools musl-dev gcc-x86-64-linux-gnu
           apt-get install -y build-essential libssl-dev pkg-config
       
       - name: Build Mac M1 binary
-        run: cargo build --target x86_64-unknown-linux-musl --release
+        run: cargo build --target aarch64-apple-darwin --release
       
       - name: Upload Mac M1 binary
         uses: actions/upload-artifact@v2
         with:
           name: modbus-prometheus-api-server-mac-m1-${{ env.VERSION }}
-          path: target/x86_64-unknown-linux-musl/release/modbus-prometheus-api-server
+          path: target/aarch64-apple-darwin/release/modbus-prometheus-api-server
 
 
