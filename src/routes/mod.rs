@@ -8,8 +8,6 @@ use tokio::sync::Mutex;
 use tokio_modbus::prelude::Writer;
 use warp::{http::StatusCode, Rejection, Reply};
 
-pub mod helpers;
-
 // POST /clients - create new client
 pub async fn create_client(
     registry: Arc<Mutex<PrometheusMetrics>>,
@@ -20,15 +18,15 @@ pub async fn create_client(
     let client_name = client_input.name.clone();
     let client_config_json_name = format!("{}.json", &client_name);
     let config_path = clients.lock().await.get_config_path().to_owned();
-    if let Err(e) = helpers::check_fs_config(&client_config_json_name, &config_path) {
+    if let Err(e) = utils::check_if_client_exist(&client_config_json_name, &config_path) {
         return Err(warp::reject::custom(e));
     }
     // check if all string in the client have either lowercase, numbers or underscore
-    if let Err(e) = helpers::check_client_strings(&serde_json::to_value(&client_input).unwrap()) {
+    if let Err(e) = utils::check_client_strings(&serde_json::to_value(&client_input).unwrap()) {
         return Err(warp::reject::custom(e));
     }
     // Store the config to local FS
-    if let Err(e) = helpers::write_config(&client_input, &config_path) {
+    if let Err(e) = utils::write_config(&client_input, &config_path) {
         return Err(warp::reject::custom(e));
     }
     // Add Counters for each register to the registry and register them
@@ -92,7 +90,7 @@ pub async fn delete_client(
     // Remove the client from the Clients struct
     clients.lock().await.delete_client(&client);
     // Remove the config from the local FS
-    if let Err(e) = helpers::delete_config(&client, &config_path) {
+    if let Err(e) = utils::delete_config(&client, &config_path) {
         return Err(warp::reject::custom(e));
     }
     Ok(warp::reply::reply())

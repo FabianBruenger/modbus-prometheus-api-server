@@ -1,5 +1,4 @@
 use crate::errors::impls::ErrorRuntime;
-use crate::routes::helpers;
 use crate::utils;
 use serde::{Deserialize, Serialize};
 use std::{collections::HashMap, fs};
@@ -41,7 +40,7 @@ impl Clients {
     ///
     /// * `Result<(), ErrorRuntime>` - The result of the initialization
     pub fn init(&mut self) -> Result<(), ErrorRuntime> {
-        match utils::get_local_config_files_full_path(self.get_config_path().to_owned()) {
+        match utils::get_local_config_files(self.get_config_path().to_owned(), true) {
             Ok(config_files) => {
                 if config_files.len() > 0 {
                     for config_file in config_files {
