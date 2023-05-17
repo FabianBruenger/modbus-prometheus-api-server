@@ -31,7 +31,7 @@ jobs:
         run: |
           sudo mkdir -p /etc/modbus-prometheus-api-server/config/
           sudo chmod -R a+rw /etc/modbus-prometheus-api-server
-          cp config/test_config.yaml /etc/modbus-prometheus-api-server/config/
+          cp config/test_config.json /etc/modbus-prometheus-api-server/config/
 
       # - name: Build
       #   run: cargo build
