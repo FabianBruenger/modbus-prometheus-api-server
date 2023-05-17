@@ -8,7 +8,59 @@ use tokio::sync::Mutex;
 use tokio_modbus::prelude::Writer;
 use warp::{http::StatusCode, Rejection, Reply};
 
-// POST /clients - create new client
+
+/// Create a new client via: POST <ip_address>:3030/clients with a json body
+//// ```json
+/// {
+///     "name": "createClientExample",
+///     "ip_address": "127.0.0.1",
+///     "port": 502,
+///     "protocol": "tcp",
+///     "registers": [
+///       {
+///         "name": "test_register_1",
+///         "objecttype": "holding",
+///         "address": 0,
+///         "length": 1,
+///         "datatype": "int16",
+///         "factor": 0,
+///         "value": 0
+///       },
+///       {
+///         "name": "test_register_2",
+///         "objecttype": "holding",
+///         "address": 1,
+///         "length": 1,
+///         "datatype": "int16",
+///         "factor": 0,
+///         "value": 0
+///       },
+///       {
+///         "name": "test_register_3",
+///         "objecttype": "input",
+///         "address": 0,
+///         "length": 1,
+///         "datatype": "int16",
+///         "factor": 0,
+///         "value": 0
+///       }
+///     ],
+///     "coils": [
+///       {
+///         "name": "test_coil_1",
+///         "objecttype": "coil",
+///         "address": 0,
+///         "value": false
+///       },
+///       {
+///         "name": "test_coil_2",
+///         "objecttype": "discrete",
+///         "address": 0,
+///         "value": false
+///       }
+///     ]
+///   }
+/// ```
 pub async fn create_client(
     registry: Arc<Mutex<PrometheusMetrics>>,
     clients: Arc<Mutex<Clients::Clients>>,
@@ -172,9 +224,9 @@ pub async fn write_register(
         .unwrap()
         .is_register_input(param.0)
     {
-        return Err(warp::reject::custom(CustomErrors::ClientRegisterNotWritable(
-            Some(param.0.clone()),
-        )));
+        return Err(warp::reject::custom(
+            CustomErrors::ClientRegisterNotWritable(Some(param.0.clone())),
+        ));
     };
     // Get the address of the register
     let address = clients
@@ -187,26 +239,38 @@ pub async fn write_register(
         .unwrap()
         .address;
     // Context for modbus client
-    let mut ctx_tmp = match utils::create_ctx(clients.lock().await.clients.get(&client).unwrap())
-        .await
-    {
-        Ok(ctx) => ctx,
-        Err(_) => {
-            return Err(warp::reject::custom(CustomErrors::ClientNotAbleToConnect(
-                Some(clients.lock().await.clients.get(&client).unwrap().get_ip_address()),
-            )));
-        }
-    };
+    let mut ctx_tmp =
+        match utils::create_ctx(clients.lock().await.clients.get(&client).unwrap()).await {
+            Ok(ctx) => ctx,
+            Err(_) => {
+                return Err(warp::reject::custom(CustomErrors::ClientNotAbleToConnect(
+                    Some(
+                        clients
+                            .lock()
+                            .await
+                            .clients
+                            .get(&client)
+                            .unwrap()
+                            .get_ip_address(),
+                    ),
+                )));
+            }
+        };
     // Try to write register
     match ctx_tmp.write_single_register(address, value).await {
         Ok(_) => {
             log::info!("Successfully wrote to input register {}", param.0);
             ctx_tmp.disconnect().await.unwrap();
-            return Ok(warp::reply::with_status("Wrote register!".to_string(), StatusCode::OK));
+            return Ok(warp::reply::with_status(
+                "Wrote register!".to_string(),
+                StatusCode::OK,
+            ));
         }
         Err(_) => {
             ctx_tmp.disconnect().await.unwrap();
-            return Err(warp::reject::custom(CustomErrors::ClientRegisterWriteGenericError));
+            return Err(warp::reject::custom(
+                CustomErrors::ClientRegisterWriteGenericError,
+            ));
         }
     }
 }
@@ -274,26 +338,38 @@ pub async fn write_coil(
         .unwrap()
         .address;
     // Context for modbus client
-    let mut ctx_tmp = match utils::create_ctx(clients.lock().await.clients.get(&client).unwrap())
-        .await
-    {
-        Ok(ctx) => ctx,
-        Err(_) => {
-            return Err(warp::reject::custom(CustomErrors::ClientNotAbleToConnect(
-                Some(clients.lock().await.clients.get(&client).unwrap().get_ip_address()),
-            )));
-        }
-    };
+    let mut ctx_tmp =
+        match utils::create_ctx(clients.lock().await.clients.get(&client).unwrap()).await {
+            Ok(ctx) => ctx,
+            Err(_) => {
+                return Err(warp::reject::custom(CustomErrors::ClientNotAbleToConnect(
+                    Some(
+                        clients
+                            .lock()
+                            .await
+                            .clients
+                            .get(&client)
+                            .unwrap()
+                            .get_ip_address(),
+                    ),
+                )));
+            }
+        };
     // Try to write coil
     match ctx_tmp.write_single_coil(address, value).await {
         Ok(_) => {
             log::info!("Successfully wrote to coil {}", param.0);
             ctx_tmp.disconnect().await.unwrap();
-            return Ok(warp::reply::with_status("Wrote coil!".to_string(), StatusCode::OK));
+            return Ok(warp::reply::with_status(
+                "Wrote coil!".to_string(),
+                StatusCode::OK,
+            ));
         }
         Err(_) => {
             ctx_tmp.disconnect().await.unwrap();
-            return Err(warp::reject::custom(CustomErrors::ClientRegisterWriteGenericError));
+            return Err(warp::reject::custom(
+                CustomErrors::ClientRegisterWriteGenericError,
+            ));
         }
     }
 }

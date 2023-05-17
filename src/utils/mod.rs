@@ -206,7 +206,55 @@ pub fn get_local_config_files(
 #[cfg(test)]
 mod test_utils {
     use super::*;
-
+    const TEST_CLIENT_JSON_OK: &str = r#"{
+        "name": "test_client_tmp",
+        "ip_address": "127.0.0.1",
+        "port": 502,
+        "protocol": "tcp",
+        "registers": [
+          {
+            "name": "test_register_1",
+            "objecttype": "holding",
+            "address": 0,
+            "length": 1,
+            "datatype": "int16",
+            "factor": 0,
+            "value": 0
+          },
+          {
+            "name": "test_register_2",
+            "objecttype": "holding",
+            "address": 1,
+            "length": 1,
+            "datatype": "int16",
+            "factor": 0,
+            "value": 0
+          },
+          {
+            "name": "test_register_3",
+            "objecttype": "input",
+            "address": 0,
+            "length": 1,
+            "datatype": "int16",
+            "factor": 0,
+            "value": 0
+          }
+        ],
+        "coils": [
+          {
+            "name": "test_coil_1",
+            "objecttype": "coil",
+            "address": 0,
+            "value": false
+          },
+          {
+            "name": "test_coil_2",
+            "objecttype": "discrete",
+            "address": 0,
+            "value": false
+          }
+        ]
+      }"#;
     const TEST_CLIENT_JSON_NOT_OK: &str = r#"{
         "name": "wrong name",
         "ip_address": "127.0.0.1",
@@ -293,5 +341,16 @@ mod test_utils {
         let client_json = serde_json::from_str(TEST_CLIENT_JSON_NOT_OK).unwrap();
         let result = check_client_strings(&client_json);
         assert_eq!(result.is_ok(), false);
+    }
+
+    #[test]
+    fn test_write_and_delete_config(){
+        let client_json = serde_json::from_str(TEST_CLIENT_JSON_OK).unwrap();
+        let client: Client = serde_json::from_value(client_json).unwrap();
+        let config = "/etc/modbus-prometheus-api-server/config";
+        let result = write_config(&client, config);
+        assert_eq!(result.is_ok(), true);
+        let result = delete_config(&client.name, config);
+        assert_eq!(result.is_ok(), true);
     }
 }
