@@ -29,7 +29,7 @@ jobs:
       
       - name: Upload test data to current runner
         run: |
-          mkdir /etc/modbus-prometheus-api-server/config
+          mkdir /etc/modbus-prometheus-api-server/config/
           chmod -R a+rw /etc/modbus-prometheus-api-server
           cp config/test_config.yaml /etc/modbus-prometheus-api-server/config/
 
