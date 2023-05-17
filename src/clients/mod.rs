@@ -1,38 +1,65 @@
 use crate::errors::impls::ErrorRuntime;
-use crate::routes::helpers;
+use crate::utils;
 use serde::{Deserialize, Serialize};
 use std::{collections::HashMap, fs};
 
 pub mod read_data;
 
+/// Clients struct
+///
+/// This struct contains all clients and the local config path
+///
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Clients {
     pub clients: HashMap<String, Client>,
     config: String,
 }
 impl Clients {
+    /// Create a new Clients struct
+    ///
+    /// # Arguments
+    ///
+    /// * `config` - The local config path
+    ///
+    /// # Returns
+    ///
+    /// * `Self` - The new Clients struct
     pub fn new(config: &str) -> Self {
         Self {
             clients: HashMap::new(),
             config: config.to_owned(),
         }
     }
-    // read local JSON configs and initialize all known clients
+    /// Initialize all clients from local stored config JSONs
+    ///
+    /// # Arguments
+    ///
+    /// * `self` - The Clients struct
+    ///
+    /// # Returns
+    ///
+    /// * `Result<(), ErrorRuntime>` - The result of the initialization
     pub fn init(&mut self) -> Result<(), ErrorRuntime> {
-        // get all local config files
-        if let Ok(config_files) = helpers::get_local_config_files_full_path(self.get_config_path().to_owned()) {
-            if config_files.len() > 0 {
-                for config_file in config_files {
-                    let json_string = match fs::read_to_string(config_file) {
-                        Ok(json_string) => json_string,
-                        Err(_) => return Err(ErrorRuntime::FSReadToStringError),
-                    };
-                    let client = Client::new(json_string)?;
-                    self.clients.insert(client.name.to_owned(), client);
+        match utils::get_local_config_files(self.get_config_path().to_owned(), true) {
+            Ok(config_files) => {
+                if config_files.len() > 0 {
+                    for config_file in config_files {
+                        let json_string = match fs::read_to_string(config_file) {
+                            Ok(json_string) => json_string,
+                            Err(_) => return Err(ErrorRuntime::FSReadToStringError),
+                        };
+                        let client = Client::new(json_string).unwrap();
+                        self.clients.insert(client.name.to_owned(), client);
+                    }
+                    Ok(())
                 }
-            }
+                else {
+                    log::warn!("No client config files found in {}. No clients are initilized", self.get_config_path());
+                    return Ok(());
+                }
+            },
+            Err(e) => return Err(e),
         }
-        Ok(())
     }
     pub fn add_client(&mut self, name: String, client: Client) {
         self.clients.insert(name, client);
@@ -40,7 +67,6 @@ impl Clients {
     pub fn delete_client(&mut self, name: &str) {
         self.clients.remove(name);
     }
-    // Get config path
     pub fn get_config_path(&self) -> &str {
         &self.config
     }
@@ -130,7 +156,7 @@ impl Client {
         }
         None
     }
-    // get coil by name 
+    // get coil by name
     pub fn get_coil_by_name(&self, name: &str) -> Option<&Coil> {
         for coil in &self.coils {
             if coil.name == name {
@@ -150,7 +176,7 @@ impl Client {
         }
         false
     }
-    // Check if the coil is a coil 
+    // Check if the coil is a coil
     pub fn is_coil_input(&self, name: &str) -> bool {
         for coil in &self.coils {
             if coil.name == name {
@@ -219,18 +245,272 @@ pub struct Coil {
 }
 // ----------------- TESTS -----------------
 #[cfg(test)]
-mod test {
+mod test_clients {
     use super::*;
+}
+#[cfg(test)]
+mod test_client {
+    use super::*;
+
+    const TEST_CLIENT_JSON_OK: &str = r#"{
+      "name": "test_client",
+      "ip_address": "127.0.0.1",
+      "port": 502,
+      "protocol": "tcp",
+      "registers": [
+        {
+          "name": "test_register_1",
+          "objecttype": "holding",
+          "address": 0,
+          "length": 1,
+          "datatype": "int16",
+          "factor": 0,
+          "value": 0
+        },
+        {
+          "name": "test_register_2",
+          "objecttype": "holding",
+          "address": 1,
+          "length": 1,
+          "datatype": "int16",
+          "factor": 0,
+          "value": 0
+        },
+        {
+          "name": "test_register_3",
+          "objecttype": "input",
+          "address": 0,
+          "length": 1,
+          "datatype": "int16",
+          "factor": 0,
+          "value": 0
+        }
+      ],
+      "coils": [
+        {
+          "name": "test_coil_1",
+          "objecttype": "coil",
+          "address": 0,
+          "value": false
+        },
+        {
+          "name": "test_coil_2",
+          "objecttype": "discrete",
+          "address": 0,
+          "value": false
+        }
+      ]
+    }"#;
+    /// Test object as input JSON with a wrong client name
+    const TEST_CLIENT_JSON_NOT_OK_WRONG_NAME: &str = r#"{
+      "name": "wrong client name",
+      "ip_address": "127.0.0.1",
+      "port": 502,
+      "protocol": "tcp",
+      "registers": [
+        {
+          "name": "test_register_1",
+          "objecttype": "holding",
+          "address": 0,
+          "length": 1,
+          "datatype": "int16",
+          "factor": 0,
+          "value": 0
+        },
+        {
+          "name": "test_register_2",
+          "objecttype": "holding",
+          "address": 1,
+          "length": 1,
+          "datatype": "int16",
+          "factor": 0,
+          "value": 0
+        },
+        {
+          "name": "test_register_3",
+          "objecttype": "input",
+          "address": 0,
+          "length": 1,
+          "datatype": "int16",
+          "factor": 0,
+          "value": 0
+        }
+      ],
+      "coils": [
+        {
+          "name": "test_coil_1",
+          "objecttype": "coil",
+          "address": 0,
+          "value": false
+        },
+        {
+          "name": "test_coil_2",
+          "objecttype": "discrete",
+          "address": 0,
+          "value": false
+        }
+      ]
+    }"#;
+    /// Test object as input JSON with a not supported protocol
+    const TEST_CLIENT_JSON_NOT_OK_WRONG_PROTOCOL: &str = r#"{
+      "name": "test_client",
+      "ip_address": "127.0.0.1",
+      "port": 502,
+      "protocol": "not supported protocol",
+      "registers": [
+        {
+          "name": "test_register_1",
+          "objecttype": "holding",
+          "address": 0,
+          "length": 1,
+          "datatype": "int16",
+          "factor": 0,
+          "value": 0
+        },
+        {
+          "name": "test_register_2",
+          "objecttype": "holding",
+          "address": 1,
+          "length": 1,
+          "datatype": "int16",
+          "factor": 0,
+          "value": 0
+        },
+        {
+          "name": "test_register_3",
+          "objecttype": "input",
+          "address": 0,
+          "length": 1,
+          "datatype": "int16",
+          "factor": 0,
+          "value": 0
+        }
+      ],
+      "coils": [
+        {
+          "name": "test_coil_1",
+          "objecttype": "coil",
+          "address": 0,
+          "value": false
+        },
+        {
+          "name": "test_coil_2",
+          "objecttype": "discrete",
+          "address": 0,
+          "value": false
+        }
+      ]
+    }"#;
+    /// Test object as input JSON with a wrong register name
+    const TEST_CLIENT_JSON_NOT_OK_WRONG_REG_NAME: &str = r#"{
+      "name": "test_client",
+      "ip_address": "127.0.0.1",
+      "port": 502,
+      "protocol": "tcp",
+      "registers": [
+        {
+          "name": "wrong name",
+          "objecttype": "holding",
+          "address": 0,
+          "length": 1,
+          "datatype": "int16",
+          "factor": 0,
+          "value": 0
+        },
+        {
+          "name": "test_register_2",
+          "objecttype": "holding",
+          "address": 1,
+          "length": 1,
+          "datatype": "int16",
+          "factor": 0,
+          "value": 0
+        },
+        {
+          "name": "test_register_3",
+          "objecttype": "input",
+          "address": 0,
+          "length": 1,
+          "datatype": "int16",
+          "factor": 0,
+          "value": 0
+        }
+      ],
+      "coils": [
+        {
+          "name": "test_coil_1",
+          "objecttype": "coil",
+          "address": 0,
+          "value": false
+        },
+        {
+          "name": "test_coil_2",
+          "objecttype": "discrete",
+          "address": 0,
+          "value": false
+        }
+      ]
+    }"#;
+    /// Test object as input JSON with a wrong register objecttype
+    const TEST_CLIENT_JSON_NOT_OK_WRONG_REG_OBJECTTYPE: &str = r#"{
+      "name": "test_client",
+      "ip_address": "127.0.0.1",
+      "port": 502,
+      "protocol": "tcp",
+      "registers": [
+        {
+          "name": "test_register_1",
+          "objecttype": "wrong objecttype",
+          "address": 0,
+          "length": 1,
+          "datatype": "int16",
+          "factor": 0,
+          "value": 0
+        },
+        {
+          "name": "test_register_2",
+          "objecttype": "holding",
+          "address": 1,
+          "length": 1,
+          "datatype": "int16",
+          "factor": 0,
+          "value": 0
+        },
+        {
+          "name": "test_register_3",
+          "objecttype": "input",
+          "address": 0,
+          "length": 1,
+          "datatype": "int16",
+          "factor": 0,
+          "value": 0
+        }
+      ],
+      "coils": [
+        {
+          "name": "test_coil_1",
+          "objecttype": "coil",
+          "address": 0,
+          "value": false
+        },
+        {
+          "name": "test_coil_2",
+          "objecttype": "discrete",
+          "address": 0,
+          "value": false
+        }
+      ]
+    }"#;
 
     #[test]
     fn test_client_ok() {
-        let client = Client::new(crate::JSON_STRING_OK.to_string());
+        let client = Client::new(TEST_CLIENT_JSON_OK.to_string());
         assert_eq!(client.is_ok(), true);
         println!("Client: {:?}", client);
     }
     #[test]
     fn test_client_not_ok() {
-        let client = Client::new(crate::JSON_STRING_NOT_OK.to_string());
+        let client = Client::new(TEST_CLIENT_JSON_NOT_OK_WRONG_NAME.to_string());
         assert_eq!(client.is_err(), true);
         println!("Client error: {:?}", client);
     }
@@ -355,326 +635,30 @@ mod test {
         assert_eq!(result.unwrap(), 1.28e-124);
     }
     #[test]
-    fn test_client_new_ok() {
-        let test_json_config_ok = r#"{
-            "name": "test_client",
-            "ip_address": "127.0.0.1",
-            "port": 8081,
-            "protocol": "tcp",
-            "registers": [
-              {
-                "name": "test_register_1",
-                "objecttype": "holding",
-                "address": 0,
-                "length": 1,
-                "datatype": "int16",
-                "factor": 2,
-                "value": 0
-              },
-              {
-                "name": "test_register_2",
-                "objecttype": "input",
-                "address": 1,
-                "length": 1,
-                "datatype": "int16",
-                "factor": -3,
-                "value": 0
-              }
-            ],
-            "coils": [
-              {
-                "name": "test_coil_1",
-                "objecttype": "coil",
-                "address": 0,
-                "value": false
-              },
-              {
-                "name": "test_coil_2",
-                "objecttype": "discrete",
-                "address": 1,
-                "value": false
-              }
-            ]
-          }"#;
-        let client = Client::new(test_json_config_ok.to_string());
-        println!("{:?}", client);
-        assert_eq!(client.is_ok(), true);
-    }
-    #[test]
-    fn test_client_new_not_ok() {
-        let test_json_config_not_ok = r#"{
-            "name": "test_client",
-            "ip_address": "127.0.0.1",
-            "port": 8081,
-            "protocol": "tcp",
-            "registers": [
-              {
-                "name": "test_register_1",
-                "objecttype": "holding",
-                "address": 0,
-                "length": 1,
-                "datatype": "int16",
-                "factor": 2,
-                "value": 0
-              },
-              {
-                "name": "test_register_2",
-                "objecttype": "input",
-                "address": 1,
-                "length": 1,
-                "datatype": "int16",
-                "factor": -3,
-                "value": 0
-              }
-            ],
-            "coils_wrong": [
-              {
-                "name": "test_coil_1",
-                "objecttype": "coil",
-                "address": 0,
-                "value": false
-              },
-              {
-                "name": "test_coil_2",
-                "objecttype": "discrete",
-                "address": 1,
-                "value": false
-              }
-            ]
-          }"#;
-        let client = Client::new(test_json_config_not_ok.to_string());
-        println!("{:?}", client);
-        assert_eq!(client.is_ok(), false);
-    }
-    #[test]
     fn test_client_verify_ok() {
-        let test_json_config_ok = r#"{
-            "name": "test_client",
-            "ip_address": "127.0.0.1",
-            "port": 8081,
-            "protocol": "tcp",
-            "registers": [
-              {
-                "name": "test_register_1",
-                "objecttype": "holding",
-                "address": 0,
-                "length": 1,
-                "datatype": "int16",
-                "factor": 0,
-                "value": 0
-              },
-              {
-                "name": "test_register_2",
-                "objecttype": "input",
-                "address": 0,
-                "length": 1,
-                "datatype": "int16",
-                "factor": 0,
-                "value": 0
-              }
-            ],
-            "coils": [
-              {
-                "name": "test_coil_1",
-                "objecttype": "coil",
-                "address": 0,
-                "value": false
-              },
-              {
-                "name": "test_coil_2",
-                "objecttype": "discrete",
-                "address": 0,
-                "value": false
-              }
-            ]
-          }"#;
-
-        let client = Client::new(test_json_config_ok.to_string());
+        let client = Client::new(TEST_CLIENT_JSON_OK.to_string());
         println!("{:?}", client);
         assert_eq!(client.is_ok(), true);
     }
     #[test]
     fn test_client_verify_not_ok_wrong_name() {
-        let test_json_config_not_ok = r#"{
-            "name": "client wrong name",
-            "ip_address": "127.0.0.1",
-            "port": 8081,
-            "protocol": "tcp",
-            "registers": [
-              {
-                "name": "test_register_1",
-                "objecttype": "holding",
-                "address": 0,
-                "length": 1,
-                "datatype": "int16",
-                "factor": 0,
-                "value": 0
-              },
-              {
-                "name": "test_register_2",
-                "objecttype": "input",
-                "address": 0,
-                "length": 1,
-                "datatype": "int16",
-                "factor": 0,
-                "value": 0
-              }
-            ],
-            "coils": [
-              {
-                "name": "test_coil_1",
-                "objecttype": "coil",
-                "address": 0,
-                "value": false
-              },
-              {
-                "name": "test_coil_2",
-                "objecttype": "discrete",
-                "address": 0,
-                "value": false
-              }
-            ]
-          }"#;
-
-        let client = Client::new(test_json_config_not_ok.to_string());
+        let client = Client::new(TEST_CLIENT_JSON_NOT_OK_WRONG_NAME.to_string());
         assert_eq!(client.is_err(), true);
     }
     #[test]
     fn test_client_verify_not_ok_wrong_protocol() {
-        let test_json_config_not_ok = r#"{
-            "name": "test_client",
-            "ip_address": "127.0.0.1",
-            "port": 8081,
-            "protocol": "wrong protocol",
-            "registers": [
-              {
-                "name": "test_register_1",
-                "objecttype": "holding",
-                "address": 0,
-                "length": 1,
-                "datatype": "int16",
-                "factor": 0,
-                "value": 0
-              },
-              {
-                "name": "test_register_2",
-                "objecttype": "input",
-                "address": 0,
-                "length": 1,
-                "datatype": "int16",
-                "factor": 0,
-                "value": 0
-              }
-            ],
-            "coils": [
-              {
-                "name": "test_coil_1",
-                "objecttype": "coil",
-                "address": 0,
-                "value": false
-              },
-              {
-                "name": "test_coil_2",
-                "objecttype": "discrete",
-                "address": 0,
-                "value": false
-              }
-            ]
-          }"#;
-
-        let client = Client::new(test_json_config_not_ok.to_string());
+        let client = Client::new(TEST_CLIENT_JSON_NOT_OK_WRONG_PROTOCOL.to_string());
         assert_eq!(client.is_err(), true);
     }
     #[test]
     fn test_client_verify_not_ok_wrong_register_name() {
-        let test_json_config_not_ok = r#"{
-            "name": "test_client",
-            "ip_address": "127.0.0.1",
-            "port": 8081,
-            "protocol": "tcp",
-            "registers": [
-              {
-                "name": "wrong name",
-                "objecttype": "holding",
-                "address": 0,
-                "length": 1,
-                "datatype": "int16",
-                "factor": 0,
-                "value": 0
-              },
-              {
-                "name": "test_register_2",
-                "objecttype": "input",
-                "address": 0,
-                "length": 1,
-                "datatype": "int16",
-                "factor": 0,
-                "value": 0
-              }
-            ],
-            "coils": [
-              {
-                "name": "test_coil_1",
-                "objecttype": "coil",
-                "address": 0,
-                "value": false
-              },
-              {
-                "name": "test_coil_2",
-                "objecttype": "discrete",
-                "address": 0,
-                "value": false
-              }
-            ]
-          }"#;
-
-        let client = Client::new(test_json_config_not_ok.to_string());
+        let client = Client::new(TEST_CLIENT_JSON_NOT_OK_WRONG_REG_NAME.to_string());
         assert_eq!(client.is_err(), true);
     }
     #[test]
-    fn test_client_verify_not_ok_wrong_register_datatype() {
-        let test_json_config_not_ok = r#"{
-            "name": "test_client",
-            "ip_address": "127.0.0.1",
-            "port": 8081,
-            "protocol": "tcp",
-            "registers": [
-              {
-                "name": "test_register_1",
-                "objecttype": "wrong",
-                "address": 0,
-                "length": 1,
-                "datatype": "int16",
-                "factor": 0,
-                "value": 0
-              },
-              {
-                "name": "test_register_2",
-                "objecttype": "input",
-                "address": 0,
-                "length": 1,
-                "datatype": "int16",
-                "factor": 0,
-                "value": 0
-              }
-            ],
-            "coils": [
-              {
-                "name": "test_coil_1",
-                "objecttype": "coil",
-                "address": 0,
-                "value": false
-              },
-              {
-                "name": "test_coil_2",
-                "objecttype": "discrete",
-                "address": 0,
-                "value": false
-              }
-            ]
-          }"#;
-
-        let client = Client::new(test_json_config_not_ok.to_string());
+    fn test_client_verify_not_ok_wrong_register_objecttype() {
+        let client = Client::new(TEST_CLIENT_JSON_NOT_OK_WRONG_REG_OBJECTTYPE.to_string());
+        println!("{:?}", client);
         assert_eq!(client.is_err(), true);
     }
 }

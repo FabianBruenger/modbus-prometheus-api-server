@@ -1,4 +1,3 @@
-// use anyhow::Result;
 use prometheus::{Registry};
 use std::{collections::HashMap, sync::{Arc}};
 use tokio::sync::Mutex;
