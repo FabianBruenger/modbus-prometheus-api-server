@@ -1,0 +1,49 @@
+{
+  "name": "test_client",
+  "ip_address": "127.0.0.1",
+  "port": 502,
+  "protocol": "tcp",
+  "registers": [
+    {
+      "name": "test_register_1",
+      "objecttype": "holding",
+      "address": 0,
+      "length": 1,
+      "datatype": "int16",
+      "factor": 0,
+      "value": 0
+    },
+    {
+      "name": "test_register_2",
+      "objecttype": "holding",
+      "address": 1,
+      "length": 1,
+      "datatype": "int16",
+      "factor": 0,
+      "value": 0
+    },
+    {
+      "name": "test_register_3",
+      "objecttype": "input",
+      "address": 0,
+      "length": 1,
+      "datatype": "int16",
+      "factor": 0,
+      "value": 0
+    }
+  ],
+  "coils": [
+    {
+      "name": "test_coil_1",
+      "objecttype": "coil",
+      "address": 0,
+      "value": false
+    },
+    {
+      "name": "test_coil_2",
+      "objecttype": "discrete",
+      "address": 0,
+      "value": false
+    }
+  ]
+}

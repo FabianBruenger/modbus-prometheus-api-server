@@ -22,6 +22,7 @@ pub enum ErrorRuntime {
     FSDirEntryError,
     FSFileDeleteError,
     FSFileCreateError,
+    FSPathNotUTF8Error,
     PrometheusErrorRegistry,
     PrometheusErrorGaugeNew,
     PrometheusErrorRegistryRegister,

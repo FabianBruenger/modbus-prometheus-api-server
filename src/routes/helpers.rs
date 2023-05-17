@@ -101,22 +101,3 @@ pub fn get_local_config_files(config: &str) -> Result<Vec<String>, ErrorRuntime>
 
     Ok(config_files)
 }
-// Get local config files paths
-pub fn get_local_config_files_full_path(config: String) -> Result<Vec<String>, ErrorRuntime> {
-    let mut config_files: Vec<String> = Vec::new();
-
-    let config_list: fs::ReadDir = match fs::read_dir(config) {
-        Ok(config_list) => config_list,
-        Err(_) => return Err(ErrorRuntime::FSReadDirError),
-    };
-
-    for config in config_list {
-        let dir_entry = match config {
-            Ok(dir_entry) => dir_entry,
-            Err(_) => return Err(ErrorRuntime::FSDirEntryError),
-        };
-        config_files.push(dir_entry.path().to_str().unwrap().to_string());
-    }
-
-    Ok(config_files)
-}

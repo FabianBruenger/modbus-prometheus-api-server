@@ -1,4 +1,5 @@
 use config::Config;
+
 #[derive(Debug, Default, serde::Deserialize, PartialEq)]
 pub struct Args {
     log_level: String,
