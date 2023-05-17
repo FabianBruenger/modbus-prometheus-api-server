@@ -33,9 +33,6 @@ jobs:
           sudo chmod -R a+rw /etc/modbus-prometheus-api-server
           cp config/test_client.json /etc/modbus-prometheus-api-server/config/
 
-      # - name: Build
-      #   run: cargo build
-
       - name: Test
         run: cargo test
 
@@ -53,9 +50,9 @@ jobs:
 
       - name: Upload test data to current runner
         run: |
-          mkdir /etc/modbus-prometheus-api-server/config
-          chmod -R a+rw /etc/modbus-prometheus-api-server
-          cp config/test_config.yaml /etc/modbus-prometheus-api-server/config/
+          sudo mkdir -p /etc/modbus-prometheus-api-server/config/
+          sudo chmod -R a+rw /etc/modbus-prometheus-api-server
+          cp config/test_client.json /etc/modbus-prometheus-api-server/config/
         
       - name: Install Rust toolchain
         uses: actions-rs/toolchain@v1
